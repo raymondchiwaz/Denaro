@@ -1,0 +1,122 @@
+<UserControl x:Class="NickvisionMoney.Windows.Views.AccountView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:converters="clr-namespace:NickvisionMoney.Windows.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:AmountColorConverter x:Key="AmountColorConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Account Header -->
+        <Border Grid.Row="0" Background="{DynamicResource SystemControlHighlightAccentBrush}" 
+                CornerRadius="8" Padding="24" Margin="0,0,0,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0">
+                    <TextBlock Name="AccountNameText" FontSize="24" FontWeight="SemiBold" 
+                               Foreground="White" Margin="0,0,0,8"/>
+                    <TextBlock Name="AccountBalanceText" FontSize="18" 
+                               Foreground="White"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Name="AddTransactionButton" Content="Add Transaction" 
+                            Click="AddTransaction_Click" Margin="0,0,8,0">
+                    </Button>
+                    <Button Name="TransferButton" Content="Transfer" 
+                            Click="Transfer_Click" Margin="0,0,8,0">
+                    </Button>
+                    <Button Name="AccountSettingsButton" Content="Settings" 
+                            Click="AccountSettings_Click">
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Filter and Search -->
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Name="SearchBox" Grid.Column="0" 
+                     ui:ControlHelper.PlaceholderText="Search transactions..." 
+                     TextChanged="SearchBox_TextChanged" Margin="0,0,16,0"/>
+            
+            <ComboBox Name="FilterComboBox" Grid.Column="1" MinWidth="150" 
+                      SelectionChanged="FilterComboBox_SelectionChanged" Margin="0,0,16,0">
+                <ComboBoxItem Content="All Transactions" IsSelected="True"/>
+                <ComboBoxItem Content="Income"/>
+                <ComboBoxItem Content="Expense"/>
+                <ComboBoxItem Content="This Month"/>
+                <ComboBoxItem Content="Last Month"/>
+                <ComboBoxItem Content="This Year"/>
+            </ComboBox>
+            
+            <Button Name="ExportButton" Grid.Column="2" Content="Export" 
+                    Click="Export_Click">
+            </Button>
+        </Grid>
+
+        <!-- Transactions List -->
+        <ListView Name="TransactionsListView" Grid.Row="2" 
+                  ItemsSource="{Binding Transactions}"
+                  SelectionChanged="TransactionsListView_SelectionChanged"
+                  MouseDoubleClick="TransactionsListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Date" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Date, StringFormat=d}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Description" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Category" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="12" Height="12" Fill="{Binding Category.Color}" 
+                                             Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding Category.Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Amount" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Amount, StringFormat=C}" 
+                                           HorizontalAlignment="Right"
+                                           Foreground="{Binding Amount, Converter={StaticResource AmountColorConverter}}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl> 

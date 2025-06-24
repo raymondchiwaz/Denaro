@@ -1,0 +1,69 @@
+<ui:ContentDialog x:Class="NickvisionMoney.Windows.Views.NewAccountDialog"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:ui="http://schemas.modernwpf.com/2019"
+                  Title="Create New Account"
+                  PrimaryButtonText="Create"
+                  SecondaryButtonText="Cancel"
+                  DefaultButton="Primary">
+    
+    <ScrollViewer MaxHeight="600" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24" MinWidth="400">
+            <TextBlock Text="Account Name" FontWeight="SemiBold" Margin="0,0,0,8"/>
+            <TextBox Name="AccountNameTextBox" Margin="0,0,0,16" 
+                     ui:ControlHelper.PlaceholderText="Enter account name"/>
+            
+            <TextBlock Text="Account Type" FontWeight="SemiBold" Margin="0,0,0,8"/>
+            <ComboBox Name="AccountTypeComboBox" Margin="0,0,0,16" SelectedIndex="0">
+                <ComboBoxItem Content="Checking"/>
+                <ComboBoxItem Content="Savings"/>
+                <ComboBoxItem Content="Business"/>
+            </ComboBox>
+            
+            <TextBlock Text="Currency" FontWeight="SemiBold" Margin="0,0,0,8"/>
+            <ComboBox Name="CurrencyComboBox" Margin="0,0,0,16" SelectedIndex="0">
+                <ComboBoxItem Content="USD - US Dollar"/>
+                <ComboBoxItem Content="EUR - Euro"/>
+                <ComboBoxItem Content="GBP - British Pound"/>
+                <ComboBoxItem Content="CAD - Canadian Dollar"/>
+                <ComboBoxItem Content="JPY - Japanese Yen"/>
+            </ComboBox>
+            
+            <TextBlock Text="Save Location" FontWeight="SemiBold" Margin="0,0,0,8"/>
+            <Grid Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="LocationTextBox" Grid.Column="0" IsReadOnly="True" Margin="0,0,8,0"/>
+                <Button Name="BrowseButton" Grid.Column="1" Content="Browse..." Click="BrowseButton_Click"/>
+            </Grid>
+            
+            <CheckBox Name="PasswordProtectedCheckBox" Content="Password Protected" Margin="0,0,0,16" 
+                      Checked="PasswordProtectedCheckBox_Checked" Unchecked="PasswordProtectedCheckBox_Unchecked"/>
+            
+            <StackPanel Name="PasswordPanel" Visibility="Collapsed" Margin="0,0,0,16">
+                <TextBlock Text="Password" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <PasswordBox Name="PasswordBox" Margin="0,0,0,8"/>
+                <TextBlock Text="Confirm Password" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <PasswordBox Name="ConfirmPasswordBox"/>
+            </StackPanel>
+            
+            <CheckBox Name="ImportDataCheckBox" Content="Import data from file" Margin="0,0,0,16"
+                      Checked="ImportDataCheckBox_Checked" Unchecked="ImportDataCheckBox_Unchecked"/>
+            
+            <StackPanel Name="ImportPanel" Visibility="Collapsed">
+                <TextBlock Text="Import File" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Name="ImportFileTextBox" Grid.Column="0" IsReadOnly="True" Margin="0,0,8,0"/>
+                    <Button Name="BrowseImportButton" Grid.Column="1" Content="Browse..." Click="BrowseImportButton_Click"/>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+    
+</ui:ContentDialog> 

@@ -1,0 +1,98 @@
+<Window x:Class="NickvisionMoney.Windows.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        mc:Ignorable="d"
+        Title="Denaro - Personal Finance Manager" Height="700" Width="1200"
+                WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu Bar -->
+        <Menu Grid.Row="0" Background="Transparent">
+            <MenuItem Header="_File">
+                <MenuItem Name="NewAccountMenuItem" Header="_New Account..." Click="NewAccount_Click"/>
+                <MenuItem Name="OpenAccountMenuItem" Header="_Open Account..." Click="OpenAccount_Click"/>
+                <Separator/>
+                <MenuItem Name="PreferencesMenuItem" Header="_Preferences" Click="Preferences_Click"/>
+                <Separator/>
+                <MenuItem Name="ExitMenuItem" Header="E_xit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Name="AboutMenuItem" Header="_About Denaro" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1" Margin="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" 
+                    CornerRadius="8" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Recent Accounts" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                    <ListView Name="RecentAccountsListView" ItemsSource="{Binding RecentAccounts}" 
+                              SelectionChanged="RecentAccountsListView_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0,4">
+                                    <TextBlock Text="📄" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Border>
+
+            <GridSplitter Grid.Column="1" Width="8" HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                          Background="Transparent" ResizeBehavior="PreviousAndNext"/>
+
+            <!-- Main Content -->
+            <Border Grid.Column="2" Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}" 
+                    CornerRadius="8" Padding="24">
+                <Grid Name="MainContentGrid">
+                    <!-- Welcome Screen -->
+                    <StackPanel Name="WelcomePanel" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                Visibility="Visible">
+                        <TextBlock Text="💰" FontSize="72" Margin="0,0,0,24" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Name="GreetingText" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Welcome to Denaro" FontSize="18" Margin="0,0,0,24"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Name="NewAccountButton" Content="Create New Account" 
+                                    Click="NewAccount_Click" Margin="0,0,12,0"/>
+                            <Button Name="OpenAccountButton" Content="Open Existing Account" 
+                                    Click="OpenAccount_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Account Tabs -->
+                    <TabControl Name="AccountTabControl" Visibility="Collapsed">
+                        <!-- Tabs will be added dynamically -->
+                    </TabControl>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2" Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+            <StatusBarItem>
+                <TextBlock Name="StatusText" Text="Ready"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window> 
